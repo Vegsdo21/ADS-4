@@ -1,10 +1,10 @@
 // Copyright 2021 NNTU-CS
 
-int countPairs1(const int* arr, int len, int value) {
+int countPairs1(int* arr, int len, int value) {
     int result = 0;
     for (int firstIndex = 0; firstIndex < len - 1; firstIndex++) {
-        for (int secondIndex = firstIndex + 1; secondIndex < len; secondIndex++) {
-            if (arr[firstIndex] + arr[secondIndex] == value) {
+        for (int j = firstIndex + 1; j < len; j++) {
+            if (arr[firstIndex] + arr[j] == value) {
                 result++;
             }
         }
@@ -12,7 +12,7 @@ int countPairs1(const int* arr, int len, int value) {
     return result;
 }
 
-int countPairs2(const int* arr, int len, int value) {
+int countPairs2(int* arr, int len, int value) {
     int result = 0;
     for (int left = 0; left < len - 1; left++) {
         for (int right = len - 1; right > left; right--) {
@@ -24,25 +24,24 @@ int countPairs2(const int* arr, int len, int value) {
     return result;
 }
 
-int countPairs3(const int* arr, int len, int value) {
-    int pairCount = 0;
+int countPairs3(int* arr, int len, int value) {
+    int count = 0;
     for (int currIdx = 0; currIdx < len - 1; currIdx++) {
         int target = value - arr[currIdx];
         int left = currIdx + 1;
         int right = len - 1;
-        
         while (left <= right) {
             int mid = left + (right - left) / 2;
             if (arr[mid] == target) {
-                pairCount++;
+                count++;
                 int leftCheck = mid - 1;
                 while (leftCheck >= left && arr[leftCheck] == target) {
-                    pairCount++;
+                    count++;
                     leftCheck--;
                 }
                 int rightCheck = mid + 1;
                 while (rightCheck <= right && arr[rightCheck] == target) {
-                    pairCount++;
+                    count++;
                     rightCheck++;
                 }
                 break;
@@ -53,5 +52,5 @@ int countPairs3(const int* arr, int len, int value) {
             }
         }
     }
-    return pairCount;
+    return count;
 }
