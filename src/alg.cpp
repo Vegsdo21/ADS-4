@@ -2,10 +2,10 @@
 
 int countPairs1(int* arr, int len, int value) {
     int result = 0;
-    for (int firstIndex = 0; firstIndex < len - 1; firstIndex++) {
-        for (int j = firstIndex + 1; j < len; j++) {
-            if (arr[firstIndex] + arr[j] == value) {
-                result++;
+    for (int first = 0; first < len - 1; first++) {
+        for (int second = first + 1; second < len; second++) {
+            if (arr[first] + arr[second] == value) {
+                result += 1;
             }
         }
     }
@@ -14,30 +14,44 @@ int countPairs1(int* arr, int len, int value) {
 
 int countPairs2(int* arr, int len, int value) {
     int result = 0;
-    for (int left = 0; left < len - 1; left++) {
-        for (int right = len - 1; right > left; right--) {
-            if (arr[left] + arr[right] == value) {
-                result++;
+    for (int start = 0; start < len - 1; start++) {
+        for (int end = len - 1; end > start; end--) {
+            if (arr[start] + arr[end] == value) {
+                result += 1;
             }
         }
     }
     return result;
 }
 
-int countPairs3(const int* arr, int len, int value) {
-    int count = 0;
-    int left = 0, right = len - 1;
-    while (left < right) {
-        int mainSum = arr[left] + arr[right];
-        if (mainSum == value) {
-            count++;
-            left++;
-            right--;
-        } else if (mainSum < value) {
-            left++;
-        } else {
-            right--;
+int countPairs3(int* arr, int len, int value) {
+    int total = 0;
+    for (int index = 0; index < len - 1; index++) {
+        int left = index, right = len;
+        while (right - left > 1) {
+            int middle = (left + right) / 2;
+            if (arr[index] + arr[middle] == value) {
+                total++;
+                int forward = middle + 1;
+                while (forward < right &&
+                       arr[index] + arr[forward] == value) {
+                    total++;
+                    forward++;
+                }
+                int backward = middle - 1;
+                while (backward > left &&
+                       arr[index] + arr[backward] == value) {
+                    total++;
+                    backward--;
+                }
+                break;
+            }
+            if (arr[index] + arr[middle] > value) {
+                right = middle;
+            } else {
+                left = middle;
+            }
         }
     }
-    return count;
+    return total;
 }
