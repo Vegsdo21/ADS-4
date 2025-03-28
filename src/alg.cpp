@@ -11,7 +11,7 @@ int countPairs1(int *arr, int len, int value) {
     }
     return totalPairs;
 }
-  
+
 int countPairs2(int* arr, int len, int value) {
     int totalPairs = 0;
     int upperLimit = len - 1;
@@ -19,7 +19,7 @@ int countPairs2(int* arr, int len, int value) {
         upperLimit--;
     }
     for (int lowerIdx = 0; lowerIdx < len; lowerIdx++) {
-        for (int upperIdx = upperLimit; 
+        for (int upperIdx = upperLimit;
              upperIdx > lowerIdx; upperIdx--) {
             if (arr[lowerIdx] + arr[upperIdx] == value) {
                 totalPairs++;
@@ -28,50 +28,39 @@ int countPairs2(int* arr, int len, int value) {
     }
     return totalPairs;
 }
-  
-int locateFirstOccurrence(int* arr, int start, int end, int key) {
-    int position = -1;
-    while (start <= end) {
-        int midpoint = start + (end - start) / 2;
-        if (arr[midpoint] == key) {
-            position = midpoint;
-            end = midpoint - 1;
-        } else if (arr[midpoint] < key) {
-            start = midpoint + 1;
+
+int searchBound(int* dataArr, int startIdx, int endIdx,
+    int searchKey, bool findFirst) {
+    int foundPos = -1;
+    while (startIdx <= endIdx) {
+        int midIdx = startIdx + (endIdx - startIdx) / 2;
+        if (dataArr[midIdx] == searchKey) {
+            foundPos = midIdx;
+            if (findFirst) {
+                endIdx = midIdx - 1;
+            } else {
+                startIdx = midIdx + 1;
+            }
+        } else if (dataArr[midIdx] < searchKey) {
+            startIdx = midIdx + 1;
         } else {
-            end = midpoint - 1;
+            endIdx = midIdx - 1;
         }
     }
-    return position;
+    return foundPos;
 }
-  
-int locateLastOccurrence(int* arr, int start, int end, int key) {
-    int position = -1;
-    while (start <= end) {
-        int midpoint = start + (end - start) / 2;
-        if (arr[midpoint] == key) {
-            position = midpoint;
-            start = midpoint + 1;
-        } else if (arr[midpoint] < key) {
-            start = midpoint + 1;
-        } else {
-            end = midpoint - 1;
-        }
-    }
-    return position;
-}
-  
+
 int countPairs3(int* arr, int len, int value) {
-    int totalPairs = 0;
+    int pairCounter = 0;
     for (int idx = 0; idx < len; idx++) {
-        int complement = value - arr[idx];
-        int firstIdx = locateFirstOccurrence(arr, idx + 1, 
-                                             len - 1, complement);
-        if (firstIdx != -1) {
-            int lastIdx = locateLastOccurrence(arr, idx + 1, 
-                                              len - 1, complement);
-            totalPairs += (lastIdx - firstIdx + 1);
+        int diffValue = value - arr[idx];
+        int firstOccur = searchBound(arr, idx + 1,
+                                len - 1, diffValue, true);
+        if (firstOccur != -1) {
+            int lastOccur = searchBound(arr, idx + 1,
+                                len - 1, diffValue, false);
+            pairCounter += (lastOccur - firstOccur + 1);
         }
     }
-    return totalPairs;
+    return pairCounter;
 }
