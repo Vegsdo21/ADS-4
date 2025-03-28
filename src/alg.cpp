@@ -10,25 +10,26 @@ int countPairs1(int *arr, int len, int value) {
         }
     }
     return totalPairs;
-  }
+}
   
-  int countPairs2(int* arr, int len, int value) {
+int countPairs2(int* arr, int len, int value) {
     int totalPairs = 0;
     int upperLimit = len - 1;
     while (upperLimit > 0 && arr[upperLimit] > value) {
         upperLimit--;
     }
     for (int lowerIdx = 0; lowerIdx < len; lowerIdx++) {
-        for (int upperIdx = upperLimit; upperIdx > lowerIdx; upperIdx--) {
+        for (int upperIdx = upperLimit; 
+             upperIdx > lowerIdx; upperIdx--) {
             if (arr[lowerIdx] + arr[upperIdx] == value) {
                 totalPairs++;
             }
         }
     }
     return totalPairs;
-  }
+}
   
-  int locateFirstOccurrence(int* arr, int start, int end, int key) {
+int locateFirstOccurrence(int* arr, int start, int end, int key) {
     int position = -1;
     while (start <= end) {
         int midpoint = start + (end - start) / 2;
@@ -42,9 +43,9 @@ int countPairs1(int *arr, int len, int value) {
         }
     }
     return position;
-  }
+}
   
-  int locateLastOccurrence(int* arr, int start, int end, int key) {
+int locateLastOccurrence(int* arr, int start, int end, int key) {
     int position = -1;
     while (start <= end) {
         int midpoint = start + (end - start) / 2;
@@ -58,17 +59,19 @@ int countPairs1(int *arr, int len, int value) {
         }
     }
     return position;
-  }
+}
   
-  int countPairs3(int* arr, int len, int value) {
+int countPairs3(int* arr, int len, int value) {
     int totalPairs = 0;
     for (int idx = 0; idx < len; idx++) {
-        int compl = value - arr[idx];
-        int firstIdx = locateFirstOccurrence(arr, idx + 1, len - 1, compl);
+        int complement = value - arr[idx];
+        int firstIdx = locateFirstOccurrence(arr, idx + 1, 
+                                             len - 1, complement);
         if (firstIdx != -1) {
-            int lastIdx = locateLastOccurrence(arr, idx + 1, len - 1, compl);
+            int lastIdx = locateLastOccurrence(arr, idx + 1, 
+                                              len - 1, complement);
             totalPairs += (lastIdx - firstIdx + 1);
         }
     }
     return totalPairs;
-  }
+}
