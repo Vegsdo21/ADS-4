@@ -19,9 +19,31 @@ int countPairs1(int *numbers, int size, int targetSum)
   }
   return matchCount;
 }
-int countPairs2(int *arr, int len, int value) {
-  return 0;
+int countPairs2(int *sequence, int count, int desired)
+{
+    int leftPos = 0;
+    int rightPos = count - 1;
+    int foundPairs = 0;
+
+    while (leftPos < rightPos)
+    {
+        int total = sequence[leftPos] + sequence[rightPos];
+
+        if (total == desired)
+        {
+            foundPairs++;
+            leftPos++;
+            rightPos--;
+        }
+        else
+        {
+            (total < desired) ? leftPos++ : rightPos--;
+        }
+    }
+
+    return foundPairs;
 }
+
 int countPairs3(int *arr, int len, int value) {
   return 0;
 }
