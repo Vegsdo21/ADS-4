@@ -44,6 +44,32 @@ int countPairs2(int *sequence, int count, int desired)
     return foundPairs;
 }
 
-int countPairs3(int *arr, int len, int value) {
-  return 0;
+int findValue(int *array, int left, int right, int key)
+{
+  while (left <= right)
+  {
+    int center = (left + right) >> 1;
+    if (array[center] == key)
+      return center;
+    if (array[center] < key)
+      left = center + 1;
+    else
+      right = center - 1;
+  }
+  return -1;
+}
+
+int countPairs3(int *input, int size, int target)
+{
+  int pairs = 0;
+  for (int p = 0; p < size - 1; ++p)
+  {
+    int companion = target - input[p];
+    int idx = findValue(input, p + 1, size - 1, companion);
+    if (idx >= 0 && input[p] + input[idx] == target)
+    {
+      ++pairs;
+    }
+  }
+  return pairs;
 }
