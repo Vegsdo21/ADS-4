@@ -42,18 +42,14 @@ int countPairs3(int *arr, int len, int value) {
   int count = 0;
   for (int i = 0; i < len - 1; ++i) {
     if (i > 0 && arr[i] == arr[i - 1]) continue;
-    int left = i + 1;
-    int right = len - 1;
-    int target = value - arr[i];
-    while (left <= right) {
-      int mid = (left + right) / 2;
-      if (arr[mid] == target) {
+    for (int j = len - 1; j > i; --j) {
+      if (j < len - 1 && arr[j] == arr[j + 1]) continue;
+      int sum = arr[i] + arr[j];
+      if (sum == value) {
         count++;
         break;
-      } else if (arr[mid] < target) {
-        left = mid + 1;
-      } else {
-        right = mid - 1;
+      } else if (sum < value) {
+        break;
       }
     }
   }
