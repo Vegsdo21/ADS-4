@@ -29,38 +29,34 @@ int countPairs2(int* arr, int len, int value) {
     return totalPairs;
 }
 
-int searchBound(int* dataArr, int startIdx, int endIdx,
-    int searchKey, bool findFirst) {
-    int foundPos = -1;
-    while (startIdx <= endIdx) {
-        int midIdx = startIdx + (endIdx - startIdx) / 2;
-        if (dataArr[midIdx] == searchKey) {
-            foundPos = midIdx;
-            if (findFirst) {
-                endIdx = midIdx - 1;
-            } else {
-                startIdx = midIdx + 1;
-            }
-        } else if (dataArr[midIdx] < searchKey) {
-            startIdx = midIdx + 1;
-        } else {
-            endIdx = midIdx - 1;
-        }
+int findBound(int* arr, int left, int right, int target, bool searchFirst) {
+  while (left <= right) {
+    int mid = (left + right) / 2;
+    if (arr[mid] < target) {
+      left = mid + 1;
+    } else if (arr[mid] > target) {
+      right = mid - 1;
+    } else {
+      if (searchFirst) {
+        right = mid - 1;
+      } else {
+        left = mid + 1;
+      }
     }
-    return foundPos;
+  }
+  return searchFirst ? left : right;
 }
 
 int countPairs3(int* arr, int len, int value) {
-    int pairCounter = 0;
-    for (int idx = 0; idx < len; idx++) {
-        int diffValue = value - arr[idx];
-        int firstOccur = searchBound(arr, idx + 1,
-                                len - 1, diffValue, true);
-        if (firstOccur != -1) {
-            int lastOccur = searchBound(arr, idx + 1,
-                                len - 1, diffValue, false);
-            pairCounter += (lastOccur - firstOccur + 1);
-        }
+  int total = 0;
+  for (int i = 0; i < len - 1; ++i) {
+    if (i > 0 && arr[i] == arr[i - 1]) continue;
+    int complement = value - arr[i];
+    int firstIdx = findBound(arr, i + 1, len - 1, complement, true);
+    int lastIdx = findBound(arr, i + 1, len - 1, complement, false);
+    if (firstIdx <= lastIdx && firstIdx < len && arr[firstIdx] == complement && arr[lastIdx] == complement) {
+      total += (lastIdx - firstIdx + 1);
     }
-    return pairCounter;
+  }
+  return total;
 }
