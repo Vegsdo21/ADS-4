@@ -38,25 +38,30 @@ int countPairs2(int *arr, int len, int value) {
   return count;
 }
 
-int findValue(int *arr, int left, int right, int key) {
+int findValue(int* arr, int left, int right, int key) {
   while (left <= right) {
-    int mid = (left + right) / 2;
-    if (arr[mid] == key) return mid;
-    if (arr[mid] < key) left = mid + 1;
-    else right = mid - 1;
+    int mid = (left + right) >> 1;
+    if (arr[mid] == key)
+      return mid;
+    else if (arr[mid] < key)
+      left = mid + 1;
+    else
+      right = mid - 1;
   }
   return -1;
 }
 
-int countPairs3(int *arr, int len, int value) {
-  int count = 0;
+int countPairs3(int* arr, int len, int value) {
+  int pairs = 0;
   for (int i = 0; i < len - 1; ++i) {
     if (i > 0 && arr[i] == arr[i - 1]) continue;
-    int companion = value - arr[i];
-    int idx = findValue(arr, i + 1, len - 1, companion);
-    if (idx >= 0) {
-      count++;
+    int complement = value - arr[i];
+    int idx = findValue(arr, i + 1, len - 1, complement);
+    if (idx != -1) {
+      pairs++;
+      while (idx + 1 < len && arr[idx] == arr[idx + 1]) idx++;
     }
   }
-  return count;
+  return pairs;
 }
+
