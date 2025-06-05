@@ -1,65 +1,62 @@
 // Copyright 2021 NNTU-CS
-int countPairs1(int* numbers, int size, int targetSum) {
-  int matchCount = 0;
-  for (int outer = 0; outer < size - 1; ++outer) {
-    if (outer > 0 && numbers[outer] == numbers[outer - 1]) continue;
-    for (int inner = outer + 1; inner < size; ++inner) {
-      if (inner > outer + 1 && numbers[inner] == numbers[inner - 1]) continue;
-      int currentSum = numbers[outer] + numbers[inner];
-      if (currentSum == targetSum) {
-        matchCount++;
-      } else if (currentSum > targetSum) {
+int countPairs1(int *arr, int len, int value) {
+  int count = 0;
+  for (int i = 0; i < len - 1; ++i) {
+    if (i > 0 && arr[i] == arr[i - 1]) continue;
+    for (int j = i + 1; j < len; ++j) {
+      if (j > i + 1 && arr[j] == arr[j - 1]) continue;
+      int sum = arr[i] + arr[j];
+      if (sum == value) {
+        count++;
+      } else if (sum > value) {
         break;
       }
     }
   }
-  return matchCount;
+  return count;
 }
 
-int countPairs2(int* sequence, int count, int desired) {
-  int leftPos = 0;
-  int rightPos = count - 1;
-  int foundPairs = 0;
+int countPairs2(int *arr, int len, int value) {
+  int left = 0;
+  int right = len - 1;
+  int count = 0;
 
-  while (leftPos < rightPos) {
-    int total = sequence[leftPos] + sequence[rightPos];
-
-    if (total == desired) {
-      foundPairs++;
-      int leftVal = sequence[leftPos];
-      int rightVal = sequence[rightPos];
-      while (leftPos < rightPos && sequence[leftPos] == leftVal) leftPos++;
-      while (leftPos < rightPos && sequence[rightPos] == rightVal) rightPos--;
+  while (left < right) {
+    int sum = arr[left] + arr[right];
+    if (sum == value) {
+      count++;
+      int leftVal = arr[left];
+      int rightVal = arr[right];
+      while (left < right && arr[left] == leftVal) left++;
+      while (left < right && arr[right] == rightVal) right--;
+    } else if (sum < value) {
+      left++;
     } else {
-      (total < desired) ? leftPos++ : rightPos--;
+      right--;
     }
   }
-
-  return foundPairs;
+  return count;
 }
 
-int findValue(int* array, int left, int right, int key) {
+int findValue(int *arr, int left, int right, int key) {
   while (left <= right) {
-    int center = (left + right) >> 1;
-    if (array[center] == key)
-      return center;
-    if (array[center] < key)
-      left = center + 1;
-    else
-      right = center - 1;
+    int mid = (left + right) / 2;
+    if (arr[mid] == key) return mid;
+    if (arr[mid] < key) left = mid + 1;
+    else right = mid - 1;
   }
   return -1;
 }
 
-int countPairs3(int* input, int size, int target) {
-  int pairs = 0;
-  for (int p = 0; p < size - 1; ++p) {
-    if (p > 0 && input[p] == input[p - 1]) continue;
-    int companion = target - input[p];
-    int idx = findValue(input, p + 1, size - 1, companion);
+int countPairs3(int *arr, int len, int value) {
+  int count = 0;
+  for (int i = 0; i < len - 1; ++i) {
+    if (i > 0 && arr[i] == arr[i - 1]) continue;
+    int companion = value - arr[i];
+    int idx = findValue(arr, i + 1, len - 1, companion);
     if (idx >= 0) {
-      pairs++;
+      count++;
     }
   }
-  return pairs;
+  return count;
 }
