@@ -1,3 +1,4 @@
+// Copyright 2021 NNTU-CS
 int countPairs1(int* numbers, int size, int targetSum) {
   int matchCount = 0;
   for (int outer = 0; outer < size - 1; ++outer) {
