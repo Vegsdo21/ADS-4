@@ -57,8 +57,12 @@ int countPairs3(int *arr, int len, int value) {
         if (i > 0 && arr[i] == arr[i - 1])
             continue;
         int complement = value - arr[i];
-        if (binarySearch(arr, i + 1, len - 1, complement) != -1)
+        int pos = binarySearch(arr, i + 1, len - 1, complement);
+        if (pos != -1) {
             count++;
+            while (i + 1 < len && arr[i] == arr[i + 1])
+                ++i;
+        }
     }
     return count;
 }
