@@ -32,8 +32,15 @@ int countPairs2(int *arr, int len, int value) {
       }
       int lv = arr[l], rv = arr[r];
       int cntL = 0, cntR = 0;
-      while (l <= r && arr[l] == lv) { cntL++; l++; }
-      while (r >= l && arr[r] == rv) { cntR++; r--; }
+     while (l <= r && arr[l] == lv) {
+  cntL++;
+  l++;
+}
+while (r >= l && arr[r] == rv) {
+  cntR++;
+  r--;
+}
+
       count += cntL * cntR;
     }
   }
