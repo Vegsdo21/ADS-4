@@ -1,5 +1,8 @@
 // Copyright 2021 NNTU-CS
+#include <algorithm>
+
 int countPairs1(int *arr, int len, int value) {
+  std::sort(arr, arr + len);
   int count = 0;
   for (int i = 0; i < len - 1; ++i) {
     if (i > 0 && arr[i] == arr[i - 1]) continue;
@@ -17,6 +20,7 @@ int countPairs1(int *arr, int len, int value) {
 }
 
 int countPairs2(int *arr, int len, int value) {
+  std::sort(arr, arr + len);
   int l = 0, r = len - 1, count = 0;
   while (l < r) {
     int sum = arr[l] + arr[r];
@@ -32,15 +36,14 @@ int countPairs2(int *arr, int len, int value) {
       }
       int lv = arr[l], rv = arr[r];
       int cntL = 0, cntR = 0;
-     while (l <= r && arr[l] == lv) {
-  cntL++;
-  l++;
-}
-while (r >= l && arr[r] == rv) {
-  cntR++;
-  r--;
-}
-
+      while (l <= r && arr[l] == lv) {
+        cntL++;
+        l++;
+      }
+      while (r >= l && arr[r] == rv) {
+        cntR++;
+        r--;
+      }
       count += cntL * cntR;
     }
   }
@@ -76,6 +79,7 @@ int findLast(int *arr, int left, int right, int target) {
 }
 
 int countPairs3(int *arr, int len, int value) {
+  std::sort(arr, arr + len);
   int count = 0;
   for (int i = 0; i < len - 1; ++i) {
     int complement = value - arr[i];
